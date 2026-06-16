@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JIM — Graphic Designer & Digital Artist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0d0d0d;
+            --surface: #161616;
+            --border: #262626;
+            --accent: #ff2d20;
+            --text: #f0f0f0;
+            --muted: #606060;
+            --font-display: 'Bebas Neue', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 3rem;
+            background: rgba(13,13,13,0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            letter-spacing: 0.08em;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--accent); }
+
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 7rem 2rem 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(255,45,32,0.07) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid rgba(255,45,32,0.5);
+            padding: 0.4rem 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-name {
+            font-family: var(--font-display);
+            font-size: clamp(6rem, 22vw, 20rem);
+            line-height: 0.82;
+            letter-spacing: 0.02em;
+            color: var(--text);
+        }
+
+        .hero-title {
+            margin-top: 2.2rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .hero-divider {
+            width: 50px; height: 2px;
+            background: var(--accent);
+            margin: 2.8rem auto;
+        }
+
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 2.2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: #ff4d42; }
+        .btn-outline { border: 1px solid var(--border); color: var(--muted); background: transparent; }
+        .btn-outline:hover { border-color: var(--text); color: var(--text); }
+
+        /* ── SECTIONS ── */
+        .section-wrap {
+            padding: 6rem 3rem;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+
+        .section-header { margin-bottom: 3rem; }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 6vw, 5.5rem);
+            line-height: 0.88;
+            letter-spacing: 0.02em;
+        }
+
+        .section-line { width: 40px; height: 2px; background: var(--accent); margin-top: 1.5rem; }
+
+        /* ── GALLERY ── */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 3px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            background: var(--surface);
+        }
+
+        .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.45s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.07); }
+
+        .gallery-overlay {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.25rem 1.5rem;
+            transition: background 0.3s;
+        }
+        .gallery-item:hover .gallery-overlay { background: rgba(0,0,0,0.62); }
+
+        .gallery-overlay-text {
+            transform: translateY(8px);
+            opacity: 0;
+            transition: all 0.28s;
+        }
+        .gallery-item:hover .gallery-overlay-text {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .gallery-overlay-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── ABOUT ── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-photo {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .about-photo img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .about-photo-caption {
+            margin-top: 0.9rem;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .about-text p {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .stat-item { border-left: 2px solid var(--accent); padding-left: 1.5rem; }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            line-height: 1;
+            color: var(--text);
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.3rem;
+        }
+
+        /* ── CONTACT ── */
+        .contact-content { text-align: center; }
+        .contact-text {
+            color: var(--muted);
+            font-size: 1rem;
+            margin-bottom: 1.8rem;
+        }
+        .contact-email {
+            display: inline-block;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: clamp(1.3rem, 4vw, 2.2rem);
+            letter-spacing: 0.01em;
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.3rem;
+            transition: color 0.2s;
+        }
+        .contact-email:hover { color: var(--accent); }
+
+        /* ── DIVIDER ── */
+        .sep { border: none; border-top: 1px solid var(--border); margin: 0 3rem; }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        footer .footer-logo { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.08em; color: var(--muted); }
+        footer .footer-logo span { color: var(--accent); }
+        footer p { font-size: 0.78rem; color: var(--muted); }
+
+        /* ── LIGHTBOX ── */
+        #lightbox {
+            display: none;
+            position: fixed; inset: 0;
+            z-index: 1000;
+            background: rgba(0,0,0,0.96);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        #lightbox.active { display: flex; }
+
+        #lightbox-img {
+            max-width: 88vw;
+            max-height: 86vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        #lightbox-close {
+            position: absolute;
+            top: 1.5rem; right: 2rem;
+            background: none; border: none;
+            color: var(--muted); font-size: 2.2rem;
+            cursor: pointer; line-height: 1;
+            transition: color 0.2s;
+        }
+        #lightbox-close:hover { color: var(--text); }
+
+        #lightbox-prev, #lightbox-next {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 3rem; height: 3rem;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        #lightbox-prev:hover, #lightbox-next:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        #lightbox-prev { left: 2rem; }
+        #lightbox-next { right: 2rem; }
+
+        #lightbox-counter {
+            position: absolute;
+            bottom: 1.5rem; left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .section-wrap { padding: 4rem 1.5rem; }
+            .sep { margin: 0 1.5rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .about-photo { max-width: 280px; margin: 0 auto; }
+            footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+            #lightbox-prev { left: 0.5rem; }
+            #lightbox-next { right: 0.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a class="nav-logo" href="#hero">JIM<span>.</span></a>
+    <ul class="nav-links">
+        <li><a href="#works">Works</a></li>
+        <li><a href="#thumbnails">Thumbnails</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+    <div class="hero-tag">Creative Portfolio</div>
+    <h1 class="hero-name">JIM</h1>
+    <p class="hero-title">Graphic Designer &amp; Digital Artist</p>
+    <div class="hero-divider"></div>
+    <div class="hero-cta">
+        <a href="#works" class="btn btn-primary">View Works</a>
+        <a href="#about" class="btn btn-outline">About Me</a>
+    </div>
+</div>
+
+<!-- SAMPLE WORKS -->
+<div class="section-wrap" id="works">
+    <div class="section-header">
+        <p class="section-label">01 — Portfolio</p>
+        <h2 class="section-title">SAMPLE WORKS</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="gallery-grid" id="works-grid"></div>
+</div>
+
+<hr class="sep">
+
+<!-- THUMBNAILS -->
+<div class="section-wrap" id="thumbnails">
+    <div class="section-header">
+        <p class="section-label">02 — Collection</p>
+        <h2 class="section-title">THUMBNAILS</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="gallery-grid" id="thumbnails-grid"></div>
+</div>
+
+<hr class="sep">
+
+<!-- ABOUT -->
+<div class="section-wrap" id="about">
+    <div class="about-grid">
+        <div class="about-photo">
+            <img src="SELF-SIMPSONIZE.png" alt="Jim Mar Zarriz, self-portrait in Simpsons style">
+        </div>
+        <div>
+            <div class="section-header">
+                <p class="section-label">03 — About</p>
+                <h2 class="section-title">THE ARTIST</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-text">
+                <p>I'm Jim Mar Zarriz, a Graphic Artist with over 9 years of professional experience in graphic design, illustration, photo editing, and digital content creation, working with both local and international clients.</p>
+                <p>For the past two years I've worked full-time as a Graphic Artist for a company serving multiple websites in the UK gambling industry, crafting promotional graphics, banners, and digital assets that drive marketing campaigns. Earlier roles as a photo editor, design artist, and illustrator built my foundation in visual communication, branding, and creative problem-solving — all backed by deep proficiency in Adobe Photoshop and Illustrator.</p>
+                <p>Outside of client work, I'm always sketching, sculpting, painting, or designing T-shirts and vector art for fun — and when I'm not at the desk, you'll usually find me cycling or skateboarding.</p>
+            </div>
+        </div>
+        <div class="about-stats">
+            <div class="stat-item">
+                <div class="stat-number">16</div>
+                <div class="stat-label">Sample Works</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">83</div>
+                <div class="stat-label">Thumbnails</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">9+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Ideas</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="sep">
+
+<!-- CONTACT -->
+<div class="section-wrap" id="contact">
+    <div class="section-header">
+        <p class="section-label">04 — Contact</p>
+        <h2 class="section-title">LET'S CONNECT</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="contact-content">
+        <p class="contact-text">Got a project in mind or just want to say hi? My inbox is always open.</p>
+        <a href="mailto:xsaranagati108x@gmail.com" class="contact-email">xsaranagati108x@gmail.com</a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">JIM<span>.</span></div>
+    <p>© 2026 Jim. All rights reserved.</p>
+    <p>Graphic Designer &amp; Digital Artist</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+    <button id="lightbox-close" aria-label="Close">×</button>
+    <button id="lightbox-prev" aria-label="Previous">&#8249;</button>
+    <img id="lightbox-img" src="" alt="">
+    <button id="lightbox-next" aria-label="Next">&#8250;</button>
+    <div id="lightbox-counter"></div>
+</div>
+
+<script>
+    const WORKS_BASE = 'SAMPLE WORKS-20260615T114309Z-3-001/SAMPLE WORKS/';
+    const THUMBS_BASE = 'Thumbnails-20260615T114305Z-3-001/Thumbnails/';
+
+    function encPath(base, filename) {
+        return base.replace(/ /g, '%20') + filename.replace(/ /g, '%20');
+    }
+
+    const sampleWorks = [
+        { file: 'Zarkasm-Logo-Skull.png',     title: 'Zarkasm Logo' },
+        { file: 'Zeke-for-a4-Prints-EDITED.png', title: 'Zeke Print' },
+        { file: 'NrshimhaDev4r.png',           title: 'Nrshimha Dev4r' },
+        { file: 'SOD.png',                     title: 'SOD' },
+        { file: 'Artboard 2.png',              title: 'Artboard 2' },
+        { file: 'Artboard 3.png',              title: 'Artboard 3' },
+        { file: 'Artboard 4.png',              title: 'Artboard 4' },
+        { file: 'Artboard 6.png',              title: 'Artboard 6' },
+        { file: 'Artboard 6 copy.png',         title: 'Artboard 6 (Alt)' },
+        { file: 'ERE.jpg',                     title: 'ERE' },
+        { file: 'Meme.png',                    title: 'Meme' },
+        { file: '159948292_4338045926224094_2062273603582633607_n.jpg',  title: 'Artwork 1' },
+        { file: '163800514_4368217879873565_8519526866380308224_n.jpg',  title: 'Artwork 2' },
+        { file: '166519130_4385676184794401_773476034313238771_n.jpg',   title: 'Artwork 3' },
+        { file: '175145080_4461456013883084_5786770876624487101_n.jpg',  title: 'Artwork 4' },
+        { file: '312243603_6145916675437001_3813828492041430816_n.jpg',  title: 'Artwork 5' },
+    ];
+
+    const thumbNums = [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,78,79,80];
+
+    const thumbSpecial = [
+        { file: 'Bran1.png',            title: 'Brand 1' },
+        { file: 'Bran2.png',            title: 'Brand 2' },
+        { file: 'LIFELOCK-VS-AURA.png', title: 'LifeLock vs Aura' },
+        { file: 'MAY-17.png',           title: 'May 17' },
+        { file: 'Thumbnail-Test.png',   title: 'Thumbnail Test' },
+        { file: 'You-Could-Be-Next--ID-Theft-PreventionVariation2.png', title: 'ID Theft Prevention' },
+    ];
+
+    const thumbnails = [
+        ...thumbNums.map(n => ({ file: `${n}.png`, title: `Thumbnail ${n}` })),
+        ...thumbSpecial,
+    ];
+
+    // ── Gallery state ──
+    let activeGallery = [];
+    let activeIndex  = 0;
+
+    function buildGalleryItems(items, base) {
+        return items.map((item, i) => ({ src: encPath(base, item.file), title: item.title, index: i }));
+    }
+
+    const worksFlat  = buildGalleryItems(sampleWorks, WORKS_BASE);
+    const thumbsFlat = buildGalleryItems(thumbnails,  THUMBS_BASE);
+
+    function createCard(galleryFlat, item) {
+        const wrap = document.createElement('div');
+        wrap.className = 'gallery-item';
+
+        const img = document.createElement('img');
+        img.src     = item.src;
+        img.alt     = item.title;
+        img.loading = 'lazy';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'gallery-overlay';
+        overlay.innerHTML = `<div class="gallery-overlay-text"><div class="gallery-overlay-title">${item.title}</div></div>`;
+
+        wrap.appendChild(img);
+        wrap.appendChild(overlay);
+
+        wrap.addEventListener('click', () => {
+            activeGallery = galleryFlat;
+            activeIndex   = item.index;
+            showLightbox();
+        });
+
+        return wrap;
+    }
+
+    const worksGrid  = document.getElementById('works-grid');
+    const thumbGrid  = document.getElementById('thumbnails-grid');
+
+    worksFlat.forEach(item  => worksGrid.appendChild(createCard(worksFlat,  item)));
+    thumbsFlat.forEach(item => thumbGrid.appendChild(createCard(thumbsFlat, item)));
+
+    // ── Lightbox ──
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lightbox-img');
+    const lbCount = document.getElementById('lightbox-counter');
+
+    function showLightbox() {
+        const item = activeGallery[activeIndex];
+        lbImg.src  = item.src;
+        lbImg.alt  = item.title;
+        lbCount.textContent = `${activeIndex + 1} / ${activeGallery.length}`;
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideLightbox() {
+        lb.classList.remove('active');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+    }
+
+    function navigate(dir) {
+        activeIndex = (activeIndex + dir + activeGallery.length) % activeGallery.length;
+        showLightbox();
+    }
+
+    document.getElementById('lightbox-close').addEventListener('click', hideLightbox);
+    document.getElementById('lightbox-prev').addEventListener('click', () => navigate(-1));
+    document.getElementById('lightbox-next').addEventListener('click', () => navigate(1));
+    lb.addEventListener('click', e => { if (e.target === lb) hideLightbox(); });
+
+    document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('active')) return;
+        if (e.key === 'Escape')     hideLightbox();
+        if (e.key === 'ArrowLeft')  navigate(-1);
+        if (e.key === 'ArrowRight') navigate(1);
+    });
+</script>
+</body>
+</html>
