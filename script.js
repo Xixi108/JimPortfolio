@@ -1,5 +1,6 @@
 const WORKS_BASE = 'SAMPLE WORKS-20260615T114309Z-3-001/SAMPLE WORKS/';
 const THUMBS_BASE = 'Thumbnails-20260615T114305Z-3-001/Thumbnails/';
+const PIXELART_BASE = 'Pixel Art/';
 
 function encPath(base, filename) {
     return base.replace(/ /g, '%20') + filename.replace(/ /g, '%20');
@@ -40,6 +41,12 @@ const thumbnails = [
     ...thumbSpecial,
 ];
 
+const pixelArt = [
+    { file: '1.1.jpg', title: 'Pixel Art 1' },
+    { file: '2.1.jpg', title: 'Pixel Art 2' },
+    { file: '3.1.jpg', title: 'Pixel Art 3' },
+];
+
 // ── Gallery state ──
 let activeGallery = [];
 let activeIndex  = 0;
@@ -48,8 +55,9 @@ function buildGalleryItems(items, base) {
     return items.map((item, i) => ({ src: encPath(base, item.file), title: item.title, index: i }));
 }
 
-const worksFlat  = buildGalleryItems(sampleWorks, WORKS_BASE);
-const thumbsFlat = buildGalleryItems(thumbnails,  THUMBS_BASE);
+const worksFlat    = buildGalleryItems(sampleWorks, WORKS_BASE);
+const thumbsFlat   = buildGalleryItems(thumbnails,  THUMBS_BASE);
+const pixelArtFlat = buildGalleryItems(pixelArt,    PIXELART_BASE);
 
 function createCard(galleryFlat, item) {
     const wrap = document.createElement('div');
@@ -76,11 +84,13 @@ function createCard(galleryFlat, item) {
     return wrap;
 }
 
-const worksGrid  = document.getElementById('works-grid');
-const thumbGrid  = document.getElementById('thumbnails-grid');
+const worksGrid    = document.getElementById('works-grid');
+const thumbGrid    = document.getElementById('thumbnails-grid');
+const pixelArtGrid = document.getElementById('pixelart-grid');
 
-worksFlat.forEach(item  => worksGrid.appendChild(createCard(worksFlat,  item)));
-thumbsFlat.forEach(item => thumbGrid.appendChild(createCard(thumbsFlat, item)));
+worksFlat.forEach(item    => worksGrid.appendChild(createCard(worksFlat,    item)));
+thumbsFlat.forEach(item   => thumbGrid.appendChild(createCard(thumbsFlat,   item)));
+pixelArtFlat.forEach(item => pixelArtGrid.appendChild(createCard(pixelArtFlat, item)));
 
 // ── Lightbox ──
 const lb      = document.getElementById('lightbox');
